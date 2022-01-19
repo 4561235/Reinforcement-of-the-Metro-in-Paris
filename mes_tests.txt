@@ -1,0 +1,45 @@
+>>> from graphe import *
+>>> from fragilite import *
+>>> from ameliorations import *
+>>> from random import *
+
+>>> G = Graphe()
+>>> G.ajouter_sommets(zip('abcdefg', [None] * 7))
+>>> G.ajouter_aretes(
+...     [('a', 'b', None), ('a', 'd', None), ('a', 'f', None), ('b', 'c', None), ('d', 'e', None),
+...      ('f', 'g', None), ('b','d',None)])
+
+>>> sorted(points_articulation(G))
+['a', 'b', 'd', 'f']
+
+>>> sorted(ponts(G))
+[['a', 'f'], ['b', 'c'], ['d', 'e'], ['f', 'g']]
+
+>>> for u, v in amelioration_ponts(G):
+...     G.ajouter_arete(u, v, None)
+>>> len(ponts(G))
+0
+
+>>> C = Graphe()
+>>> C.ajouter_sommets(zip('abcdefg', [None] * 7))
+>>> C.ajouter_aretes(
+...     [('a', 'b', None), ('a', 'd', None), ('a', 'f', None), ('b', 'c', None), ('d', 'e', None),
+...      ('f', 'g', None), ('b','d',None)])
+
+>>> for u, v in amelioration_points_articulation(C):
+...     C.ajouter_arete(u, v, None)
+>>> len(points_articulation(C))
+0
+
+>>> reseau = Graphe()
+>>> charger_donnees(reseau, "METRO_14.txt")
+>>> charger_donnees(reseau, "RER_A.txt")
+
+>>> sorted(map(reseau.nom_sommet, reseau.sommets()))
+['Achères Grand Cormier', 'Achères-Ville', 'Auber', 'Bercy', 'Bibliothèque-François Mitterrand', 'Boissy-Saint-Léger', 'Bry-sur-Marne', 'Bussy-Saint-Georges', 'Cergy-Le-Haut', 'Cergy-Préfecture', 'Cergy-Saint-Christophe', 'Champigny', 'Charles de Gaulle-Etoile', 'Chatou-Croissy', 'Châtelet', 'Châtelet-Les Halles', "Conflans-Fin d'Oise", 'Cour Saint-Emilion', 'Fontenay-sous-Bois', 'Gare de Lyon', 'Houilles Carrières-sur-Seine', 'Joinville-le-Pont', 'La Défense (Grande Arche)', 'La Varenne-Chennevières', 'Le Parc de Saint-Maur', 'Le Vésinet-Centre', 'Le Vésinet-Le Pecq', 'Lognes', 'Madeleine', 'Maisons-Laffitte', 'Marne-la-Vallée Chessy', 'Nanterre-Préfecture', 'Nanterre-Université', 'Nanterre-Ville', 'Nation', 'Neuilly-Plaisance', 'Neuville-Université', 'Nogent-sur-Marne', 'Noisiel', 'Noisy-Champs', "Noisy-le-Grand (Mont d'Est)", 'Olympiades', 'Poissy', 'Pyramides', 'Rueil-Malmaison', 'Saint-Germain-en-Laye', 'Saint-Lazare', 'Saint-Maur Créteil', 'Sartrouville', 'Sucy Bonneuil', 'Torcy', "Val d'europe", 'Val de Fontenay', 'Vincennes']
+
+>>> sorted(reseau.sommets())
+[1631, 1636, 1643, 1651, 1652, 1670, 1671, 1680, 1689, 1713, 1722, 1757, 1801, 1829, 1830, 1831, 1837, 1838, 1839, 1840, 1848, 1850, 1851, 1859, 1869, 1878, 1885, 1887, 1894, 1904, 1919, 1943, 1955, 1964, 1967, 1970, 1983, 2010, 2012, 2021, 2022, 2024, 2028, 2039, 2053, 2068, 2074, 48429, 48433, 161468, 1166824, 1166826, 1166828, 2771311]
+
+>>> sorted(reseau.aretes())  # doctest: +NORMALIZE_WHITESPACE
+[(1631, 1651, 'RER_A'), (1631, 1689, 'RER_A'), (1631, 1943, 'RER_A'), (1636, 1859, 'RER_A'), (1636, 2012, 'RER_A'), (1643, 1878, 'RER_A'), (1643, 1894, 'RER_A'), (1651, 1955, 'RER_A'), (1652, 1840, 'RER_A'), (1652, 2010, 'RER_A'), (1670, 1851, 'RER_A'), (1671, 1848, 'RER_A'), (1671, 1904, 'RER_A'), (1680, 1919, 'RER_A'), (1680, 2074, 'RER_A'), (1689, 1837, 'RER_A'), (1713, 1831, 'RER_A'), (1713, 1970, 'RER_A'), (1722, 1869, 'METRO_14'), (1757, 1869, 'METRO_14'), (1757, 1964, 'METRO_14'), (1801, 2771311, 'RER_A'), (1829, 1830, 'RER_A'), (1829, 1887, 'RER_A'), (1829, 1894, 'RER_A'), (1830, 1831, 'RER_A'), (1837, 2010, 'RER_A'), (1838, 1904, 'RER_A'), (1838, 1943, 'RER_A'), (1839, 1840, 'RER_A'), (1839, 1859, 'RER_A'), (1848, 2024, 'RER_A'), (1850, 1851, 'RER_A'), (1850, 1970, 'RER_A'), (1878, 2039, 'RER_A'), (1878, 2771311, 'RER_A'), (1885, 161468, 'RER_A'), (1887, 2028, 'RER_A'), (1919, 2024, 'RER_A'), (1955, 1964, 'METRO_14'), (1955, 1967, 'RER_A'), (1955, 2068, 'METRO_14'), (1967, 2053, 'RER_A'), (1983, 2039, 'RER_A'), (1983, 48433, 'RER_A'), (2012, 161468, 'RER_A'), (2021, 2022, 'RER_A'), (2021, 48433, 'RER_A'), (2022, 48429, 'RER_A'), (2028, 2053, 'RER_A'), (2068, 1166828, 'METRO_14'), (1166824, 1166826, 'METRO_14'), (1166826, 1166828, 'METRO_14')]
